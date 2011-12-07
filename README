@@ -1,0 +1,27 @@
+Mustache for Flask
+
+e.g.
+
+
+    from flask import Flask
+    from pystache import View
+    from flaskext.mustache import viewroute
+
+    app = Flask(__name__)
+
+    @viewroute(app, '/example/<dynamic>')
+    class Example(View):
+
+        """
+        An example view
+        """
+
+        def __init__(self, *args, **kwargs):
+            super(Example, self).__init__(*args, **kwargs)
+            self.template = "{{hello}}{{dynamic}}"
+
+        def hello(self):
+            return "hello"
+
+        def dynamic(self):
+            return self.route_args.get('dynamic')
