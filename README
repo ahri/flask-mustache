@@ -5,7 +5,7 @@ e.g.
 
     from flask import Flask
     from pystache import View
-    from flaskext.mustache import viewroute
+    from flaskext.mustache import viewroute, viewerror
 
     app = Flask(__name__)
 
