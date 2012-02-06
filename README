@@ -16,8 +16,8 @@ e.g.
         An example view
         """
 
-        def __init__(self, *args, **kwargs):
-            super(Example, self).__init__(*args, **kwargs)
+        def __init__(self):
+            super(Example, self).__init__()
             self.template = "{{hello}}{{dynamic}}"
 
         def hello(self):
@@ -26,29 +26,29 @@ e.g.
         def dynamic(self):
             return self.route_args.get('dynamic')
 
-    @viewerror(self.app, 404, *args, **kwargs)
+    @viewerror(self.app, 404)
     class Example404(View):
 
         """
         An example 404 view
         """
 
-        def __init__(self, *args, **kwargs):
-            super(Example404, self).__init__(*args, **kwargs)
+        def __init__(self):
+            super(Example404, self).__init__()
             self.template = "{{hello}}"
 
         def hello(self):
             return "hello 404"
 
-    @viewerror(self.app, NotImplementedError, 501, *args, **kwargs)
+    @viewerror(self.app, NotImplementedError, 501)
     class ExampleCustomCode(View):
 
         """
         An example Exception view
         """
 
-        def __init__(self, *args, **kwargs):
-            super(ExampleCustomCode, self).__init__(*args, **kwargs)
+        def __init__(self):
+            super(ExampleCustomCode, self).__init__()
             self.template = "{{hello}}"
 
         def hello(self):
