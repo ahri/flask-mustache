@@ -4,7 +4,9 @@ from flask import Flask
 from flaskext.testing import TestCase
 from pystache import View
 
-from flaskext.mustache import viewroute
+import sys
+sys.path.append("flaskext")
+from mustache import viewroute
 
 class Decorator(TestCase):
 
