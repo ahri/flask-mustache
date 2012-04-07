@@ -7,7 +7,7 @@ def viewroute(app, rule):
 
         def render(**kwargs):
             o = c()
-            o.route_args = kwargs
+            o.route(**kwargs)
             return o.render()
 
         app.add_url_rule(rule, c.__name__, render)
@@ -30,7 +30,7 @@ def viewerror(app, code_or_exception, return_code=None):
         def render(err, **kwargs):
             o = c()
             o.err = err
-            o.route_args = kwargs
+            o.route(**kwargs)
             return o.render(), return_code
 
         app.register_error_handler(code_or_exception, render)

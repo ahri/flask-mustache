@@ -20,6 +20,9 @@ e.g.
             super(Example, self).__init__()
             self.template = "{{hello}}{{dynamic}}"
 
+        def route(self, **kwargs):
+            self.route_args = kwargs
+
         def hello(self):
             return "hello"
 
@@ -37,6 +40,9 @@ e.g.
             super(Example404, self).__init__()
             self.template = "{{hello}}"
 
+        def route(self, **kwargs):
+            self.route_args = kwargs
+
         def hello(self):
             return "hello 404"
 
@@ -50,6 +56,9 @@ e.g.
         def __init__(self):
             super(ExampleCustomCode, self).__init__()
             self.template = "{{hello}}"
+
+        def route(self, **kwargs):
+            self.route_args = kwargs
 
         def hello(self):
             return "hello custom code"

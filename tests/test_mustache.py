@@ -34,6 +34,9 @@ class Decorator(TestCase):
                 super(Example, self).__init__(*args, **kwargs)
                 self.template = "{{hello}}{{dynamic}}"
 
+            def route(self, **kwargs):
+                self.route_args = kwargs
+
             def hello(self):
                 return "hello"
 
@@ -102,6 +105,9 @@ class Decorator404(TestCase):
                 super(Example404, self).__init__(*args, **kwargs)
                 self.template = "{{hello}}"
 
+            def route(self, **kwargs):
+                self.route_args = kwargs
+
             def hello(self):
                 return "hello 404"
 
@@ -169,6 +175,9 @@ class DecoratorException(TestCase):
                 super(ExampleException, self).__init__(*args, **kwargs)
                 self.template = "{{hello}}{{dynamic}}"
 
+            def route(self, **kwargs):
+                self.route_args = kwargs
+
             def hello(self):
                 return "hello exception"
 
@@ -225,6 +234,9 @@ class DecoratorExCustomCode(TestCase):
                 super(ExampleRaiseNotImplemented, self).__init__(*args, **kwargs)
                 self.template = "{{hello}}{{dynamic}}"
 
+            def route(self, **kwargs):
+                self.route_args = kwargs
+
             def hello(self):
                 raise NotImplementedError("testing")
 
@@ -241,6 +253,9 @@ class DecoratorExCustomCode(TestCase):
             def __init__(self, *args, **kwargs):
                 super(ExampleCustomCode, self).__init__(*args, **kwargs)
                 self.template = "{{hello}}"
+
+            def route(self, **kwargs):
+                self.route_args = kwargs
 
             def hello(self):
                 return "hello custom code"
