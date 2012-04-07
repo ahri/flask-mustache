@@ -15,9 +15,9 @@ from setuptools import setup
 
 setup(
     name='Flask-Mustache',
-    version='0.2.0',
+    version='0.2.1',
     url='http://github.com/ahri/flask-mustache',
-    license='AGPLv3',
+    license='MIT',
     author='Adam Piper',
     author_email='adam@ahri.net',
     description='Mustache for Flask',
@@ -38,7 +38,7 @@ setup(
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU Affero General Public License v3',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
