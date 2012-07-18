@@ -15,7 +15,7 @@ from setuptools import setup
 
 setup(
     name='Flask-Mustache',
-    version='0.3.0',
+    version='0.3.1',
     url='http://github.com/ahri/flask-mustache',
     license='MIT',
     author='Adam Piper',
