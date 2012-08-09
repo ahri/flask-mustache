@@ -1,12 +1,9 @@
 # coding: utf-8
 
-from flask import Flask
-from flaskext.testing import TestCase
 from pystache import View
-
-import sys
-sys.path.append("flaskext")
-from mustache import viewroute, viewerror
+from flask import Flask
+from flask.ext.testing import TestCase
+from flask.ext.mustache import FlaskMustache
 
 class Decorator(TestCase):
 
@@ -18,12 +15,13 @@ class Decorator(TestCase):
         """Make a test app"""
         self.app = Flask(__name__)
         self.app.config['TESTING'] = True
+        self.fm = FlaskMustache(self.app)
         return self.app
 
     def setup_view(self, *args, **kwargs):
-        """Create a view and decorate it with our pystache viewroute"""
+        """Create a view and decorate it with our pystache view_route"""
 
-        @viewroute(self.app, *args, **kwargs)
+        @self.fm.view_route(*args, **kwargs)
         class Example(View):
 
             """
@@ -89,12 +87,13 @@ class Decorator404(TestCase):
         """Make a test app"""
         self.app = Flask(__name__)
         self.app.config['TESTING'] = True
+        self.fm = FlaskMustache(self.app)
         return self.app
 
     def setup_view(self, *args, **kwargs):
-        """Create a view and decorate it with our pystache viewroute"""
+        """Create a view and decorate it with our pystache view_route"""
 
-        @viewerror(self.app, 404, *args, **kwargs)
+        @self.fm.view_error(404, *args, **kwargs)
         class Example404(View):
 
             """
@@ -145,12 +144,13 @@ class DecoratorException(TestCase):
         """Make a test app"""
         self.app = Flask(__name__)
         self.app.config['TESTING'] = True
+        self.fm = FlaskMustache(self.app)
         return self.app
 
     def setup_view(self, *args, **kwargs):
-        """Create a view and decorate it with our pystache viewroute"""
+        """Create a view and decorate it with our pystache view_route"""
 
-        @viewroute(self.app, '/testexception', *args, **kwargs)
+        @self.fm.view_route('/testexception', *args, **kwargs)
         class ExampleRaiseException(View):
 
             """
@@ -164,7 +164,7 @@ class DecoratorException(TestCase):
             def hello(self):
                 raise Exception("testing")
 
-        @viewerror(self.app, Exception, *args, **kwargs)
+        @self.fm.view_error(Exception, *args, **kwargs)
         class ExampleException(View):
 
             """
@@ -218,12 +218,13 @@ class DecoratorExCustomCode(TestCase):
         """Make a test app"""
         self.app = Flask(__name__)
         self.app.config['TESTING'] = True
+        self.fm = FlaskMustache(self.app)
         return self.app
 
     def setup_view(self, *args, **kwargs):
-        """Create a view and decorate it with our pystache viewroute"""
+        """Create a view and decorate it with our pystache view_route"""
 
-        @viewroute(self.app, '/testnotimplemented', *args, **kwargs)
+        @self.fm.view_route('/testnotimplemented', *args, **kwargs)
         class ExampleRaiseNotImplemented(View):
 
             """
@@ -243,7 +244,7 @@ class DecoratorExCustomCode(TestCase):
             def dynamic(self):
                 return self.route_args.get('dynamic')
 
-        @viewerror(self.app, NotImplementedError, 501, *args, **kwargs)
+        @self.fm.view_error(NotImplementedError, 501, *args, **kwargs)
         class ExampleCustomCode(View):
 
             """

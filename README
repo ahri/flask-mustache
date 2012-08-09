@@ -5,11 +5,12 @@ e.g.
 
     from flask import Flask
     from pystache import View
-    from flaskext.mustache import viewroute, viewerror
+    from flask.ext.mustache import FlaskMustache
 
     app = Flask(__name__)
+    mustache = FlaskMustache(app)
 
-    @viewroute(app, '/example/<dynamic>')
+    @mustache.view_route('/example/<dynamic>')
     class Example(View):
 
         """
@@ -29,7 +30,7 @@ e.g.
         def dynamic(self):
             return self.route_args.get('dynamic')
 
-    @viewerror(self.app, 404)
+    @mustache.view_error(404)
     class Example404(View):
 
         """
@@ -46,7 +47,7 @@ e.g.
         def hello(self):
             return "hello 404"
 
-    @viewerror(self.app, NotImplementedError, 501)
+    @mustache.view_error(NotImplementedError, 501)
     class ExampleCustomCode(View):
 
         """

@@ -15,24 +15,23 @@ from setuptools import setup
 
 setup(
     name='Flask-Mustache',
-    version='0.3.1',
+    version='0.4.0',
     url='http://github.com/ahri/flask-mustache',
     license='MIT',
     author='Adam Piper',
     author_email='adam@ahri.net',
     description='Mustache for Flask',
     long_description=__doc__,
-    packages=['flaskext'],
-    namespace_packages=['flaskext'],
     test_suite="nose.collector",
     zip_safe=False,
     platforms='any',
+    py_modules=['flask_mustache'],
     install_requires=[
-        'Flask>=0.8',
+        'Flask',
     ],
     tests_require=[
-        'Flask-Testing>=0.3',
-        'pystache>=0.3.1',
+        'Flask-Testing',
+        'pystache',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
