@@ -4,22 +4,50 @@ e.g.
 
 
     from flask import Flask
-    from pystache import View
+    from pystache import TemplateSpec
     from flask.ext.mustache import FlaskMustache
 
     app = Flask(__name__)
     mustache = FlaskMustache(app)
 
-    @mustache.view_route('/example/<dynamic>')
-    class Example(View):
+
+    @mustache.view_route('/example/<stuff>')
+    class Example(TemplateSpec):
 
         """
         An example view
         """
 
-        def __init__(self):
-            super(Example, self).__init__()
-            self.template = "{{hello}}{{dynamic}}"
+        template = "{{hello}}"
+
+        def hello(self):
+            return "hello"
+
+
+    @mustache.view_route('/example/<stuff>')
+    class ParamExample(TemplateSpec):
+
+        """
+        An example view
+        """
+
+        template = "{{hello}}{{stuff}}"
+
+        def route(self, stuff):
+            self.stuff = stuff
+
+        def hello(self):
+            return "hello"
+
+
+    @mustache.view_route('/example/<dynamic>')
+    class DynamicExample(TemplateSpec):
+
+        """
+        An example view
+        """
+
+        template = "{{hello}}{{dynamic}}"
 
         def route(self, **kwargs):
             self.route_args = kwargs
@@ -28,38 +56,29 @@ e.g.
             return "hello"
 
         def dynamic(self):
-            return self.route_args.get('dynamic')
+            return self.route_args.get('dynamic', '')
+
 
     @mustache.view_error(404)
-    class Example404(View):
+    class Example404(TemplateSpec):
 
         """
         An example 404 view
         """
 
-        def __init__(self):
-            super(Example404, self).__init__()
-            self.template = "{{hello}}"
-
-        def route(self, **kwargs):
-            self.route_args = kwargs
+        template = "{{hello}}"
 
         def hello(self):
             return "hello 404"
 
     @mustache.view_error(NotImplementedError, 501)
-    class ExampleCustomCode(View):
+    class ExampleCustomCode(TemplateSpec):
 
         """
-        An example Exception view
+        An example Exception view that emits a (user specified) 501 code
         """
 
-        def __init__(self):
-            super(ExampleCustomCode, self).__init__()
-            self.template = "{{hello}}"
-
-        def route(self, **kwargs):
-            self.route_args = kwargs
+        template = "{{hello}}"
 
         def hello(self):
             return "hello custom code"

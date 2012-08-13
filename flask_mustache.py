@@ -1,4 +1,6 @@
 # coding: utf-8
+from pystache import render
+
 
 class FlaskMustache(object):
 
@@ -10,12 +12,16 @@ class FlaskMustache(object):
 
         def class_wrapper(c):
 
-            def render(**kwargs):
+            def _render(**kwargs):
                 o = c()
-                o.route(**kwargs)
-                return o.render()
+                try:
+                    o.route(**kwargs)
+                except AttributeError:
+                    pass  # route is optional
 
-            self._app.add_url_rule(rule, c.__name__, render)
+                return render(o)
+
+            self._app.add_url_rule(rule, c.__name__, _render)
 
             return c
 
@@ -32,13 +38,17 @@ class FlaskMustache(object):
 
         def class_wrapper(c):
 
-            def render(err, **kwargs):
+            def _render(err, **kwargs):
                 o = c()
                 o.err = err
-                o.route(**kwargs)
-                return o.render(), return_code
+                try:
+                    o.route(**kwargs)
+                except AttributeError:
+                    pass  # route is optional
 
-            self._app.register_error_handler(code_or_exception, render)
+                return render(o), return_code
+
+            self._app.register_error_handler(code_or_exception, _render)
 
             return c
 
