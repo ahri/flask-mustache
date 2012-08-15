@@ -4,7 +4,7 @@ from flask import Flask
 from flask.ext.testing import TestCase
 from flask.ext.mustache import FlaskMustache
 
-from pystache import TemplateSpec
+from pystache import TemplateSpec, Renderer
 
 
 class Basic(TestCase):
@@ -436,3 +436,53 @@ class DecoratorExCustomCode(TestCase):
 
         # Assert
         self.assertEquals(response.data, "hello custom code")
+
+
+class CustomRenderer(TestCase):
+
+    """
+    Test passing a custom Pystache Renderer.
+    """
+
+    def create_app(self):
+        """Make a test app"""
+        self.app = Flask(__name__)
+        self.app.config['TESTING'] = True
+        self.fm = FlaskMustache(self.app, Renderer(partials={'custom': "custom"}).render)
+        return self.app
+
+    def setup_view(self, *args, **kwargs):
+        """Create a view and decorate it with our pystache view_route"""
+
+        @self.fm.view_route(*args, **kwargs)
+        class Example(TemplateSpec):
+
+            """
+            An example view
+            """
+
+            template = "{{> custom}}"
+
+    def test_valid_response(self):
+        """Test that the application gives a valid response for our test route"""
+        # Arrange
+        route = '/test'
+        self.setup_view(route)
+
+        # Act
+        response = self.client.get(route)
+
+        # Assert
+        self.assert200(response)
+
+    def test_valid_content_mustache_var(self):
+        """Test that the application gives valid content for a predefined partial"""
+        # Arrange
+        route = '/test'
+        self.setup_view(route)
+
+        # Act
+        response = self.client.get(route)
+
+        # Assert
+        self.assertEquals(response.data, "custom")

@@ -4,8 +4,9 @@ from pystache import render
 
 class FlaskMustache(object):
 
-    def __init__(self, app):
+    def __init__(self, app, renderer=render):
         self._app = app
+        self._renderer = renderer
 
     def view_route(self, rule):
         """Decorator for a pystache View"""
@@ -19,7 +20,7 @@ class FlaskMustache(object):
                 except AttributeError:
                     pass  # route is optional
 
-                return render(o)
+                return self._renderer(o)
 
             self._app.add_url_rule(rule, c.__name__, _render)
 
@@ -46,7 +47,7 @@ class FlaskMustache(object):
                 except AttributeError:
                     pass  # route is optional
 
-                return render(o), return_code
+                return self._renderer(o), return_code
 
             self._app.register_error_handler(code_or_exception, _render)
 
