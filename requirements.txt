@@ -1,4 +1,4 @@
-Flask==0.8
+Flask==1.0
 Flask-Testing==0.3
 Jinja2==2.6
 Werkzeug==0.8.3
